@@ -1,0 +1,6 @@
+# ignore all logs
+*.log
+# ignore all .d
+*.d
+# ignore all .o
+*.o
