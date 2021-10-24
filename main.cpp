@@ -140,11 +140,76 @@ void readInputWords()
   //do I need a destructor for workerThread ???
 }
 
+// Repeatedly ask the user for a word and check whether it was present in the word list
+// Terminate on EOF
+//
+void lookupWords ()
+{
+  bool found;
+  char * linebuf = new char[32];
+    
+  // for(;;)
+  // {
+    std::cout << "Enter a word for lookup: " << std::endl;
+    if (std::scanf( "%s", linebuf ) == EOF)
+      return;
+
+  //   // Initialize the word to search for
+  //   Word * w = new Word();
+  //   std::strcpy( w->data, linebuf );
+
+  //   // Search for the word
+  //   unsigned i;
+  //   for ( i = 0; i < s_wordsArray.size(); ++i )
+  //   {
+  //     if (std::strcmp( s_wordsArray[i]->data, w->data ) == 0)
+  //     {
+  //       found = true;
+  //       break;
+  //     }
+  //   }customLess
+
+  //   if (found)
+  //   {
+  //     std::printf( "SUCCESS: '%s' was present %d times in the initial word list\n",
+  //                  s_wordsArray[i]->data, s_wordsArray[i]->count );
+  //     ++s_totalFound;
+  //   }
+  //   else
+  //     std::printf( "'%s' was NOT found in the initial word list\n", w->data );
+  // }
+}
+
+
+/**This method compares two Words alphabetically
+ * @param[in] first: pointer pointing to the beginning of first Word 
+ * @param[in] second: pointer pointing to the beginning of second Word 
+ * @return true if [first, second] is in alphabetical order, false else
+ */ 
+bool compareWords(Word* first, Word* second)
+{
+  std::string firstStr = first->data;
+  std::string secondStr = second->data;
+  //minimum size between the two strings
+  unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
+  for(unsigned int i = 0; i < minStringSize; ++i)
+  {
+      if(firstStr[i] < secondStr[i])
+        return true;
+      else if(firstStr[i] > secondStr[i])
+        return false;
+  }
+  return false;
+}
+
 int main()
 {
 
   /*******readInputWords()*****/
   readInputWords();
+
+  // Sort the words alphabetically
+  std::sort( s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
   // Print the word list
   std::printf("\n=== Word list:\n");
