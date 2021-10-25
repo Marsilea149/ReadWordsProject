@@ -1,10 +1,6 @@
 #include <iostream>
-//#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <thread>
 #include <vector>
-#include <cstdio>
 #include <algorithm>
 #include <cstring>
 #include <mutex>
@@ -152,6 +148,7 @@ void lookupWords()
   char *linebuf = new char[32];
 
   //TODO: not sure about the ending conditions
+  //TODO: do I need to introduce filestream to be able to use EOF ?
   //std::scanf("%s", linebuf) != EOF
   while (1)
   {
@@ -213,6 +210,7 @@ bool compareWords(Word *first, Word *second)
 
 int main()
 {
+  //TODO understand try{} catch{}
   try
   {
     /*******readInputWords()*****/
@@ -237,5 +235,10 @@ int main()
   // Free the memory address returned using malloc()
   free(s_word.data);
 
+  //TODO: not sure if necessary
+  s_wordsArray.clear();
+  s_wordsArray.shrink_to_fit();
+  std::cout << "The vector size is " << s_wordsArray.size() << ", and its "
+            << "capacity is " << s_wordsArray.capacity() << std::endl;
   return 0;
 }
