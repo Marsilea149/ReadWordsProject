@@ -183,6 +183,9 @@ void lookupWords()
   {
     std::printf("'%s' was NOT found in the initial word list\n", w->data);
   }
+
+  delete linebuf;
+  delete w;
   std::cout << "***********end lookupWords***********" << std::endl;
 }
 
