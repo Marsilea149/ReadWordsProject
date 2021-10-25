@@ -151,41 +151,42 @@ void lookupWords()
   bool found = false;
   char *linebuf = new char[32];
 
-  // for(;;)
-  // {
-  std::cout << "Enter a word for lookup: " << std::endl;
-  if (std::scanf("%s", linebuf) == EOF)
-    return;
-
-  //??? maybe need to delete after new to avoid memory leak ?
-
-  // Initialize the word to search for
-  Word *w = new Word(linebuf);
-  // //copy linebuf data into s_word.data
-  // w->data = my_strdup(linebuf);
-
-  // Search for the word
-  for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
+  //TODO: not sure about the ending conditions
+  //std::scanf("%s", linebuf) != EOF
+  while (1)
   {
-    //std::cout << "---s_wordsArray[i]->data---" << s_wordsArray[i]->data << std::endl;
-    //std::cout << "---w->data---" << w->data << std::endl;
-    if (std::strcmp(s_wordsArray[i]->data, w->data) == 0)
+    std::cout << "Enter a word for lookup: " << std::endl;
+
+    if (std::scanf("%s", linebuf) == EOF)
+      return;
+
+    //TODO: replace w with local object instead of new
+    // Initialize the word to search for
+    Word *w = new Word(linebuf);
+
+    // Search for the word
+    for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
-      std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
-                  s_wordsArray[i]->data, s_wordsArray[i]->count);
-      found = true;
-      ++s_totalFound;
-      break;
+      //std::cout << "---s_wordsArray[i]->data---" << s_wordsArray[i]->data << std::endl;
+      //std::cout << "---w->data---" << w->data << std::endl;
+      if (std::strcmp(s_wordsArray[i]->data, w->data) == 0)
+      {
+        std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
+                    s_wordsArray[i]->data, s_wordsArray[i]->count);
+        found = true;
+        ++s_totalFound;
+        break;
+      }
     }
-  }
+    if (!found)
+    {
+      std::printf("'%s' was NOT found in the initial word list\n", w->data);
+    }
 
-  if (!found)
-  {
-    std::printf("'%s' was NOT found in the initial word list\n", w->data);
+    delete w;
   }
-
   delete linebuf;
-  delete w;
+
   std::cout << "***********end lookupWords***********" << std::endl;
 }
 
@@ -212,22 +213,27 @@ bool compareWords(Word *first, Word *second)
 
 int main()
 {
+  try
+  {
+    /*******readInputWords()*****/
+    readInputWords();
 
-  /*******readInputWords()*****/
-  readInputWords();
+    // Sort the words alphabetically
+    std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
-  // Sort the words alphabetically
-  std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
+    // Print the word list
+    std::printf("\n=== Word list:\n");
+    for (auto p : s_wordsArray)
+      std::printf("%s %d\n", p->data, p->count);
 
-  // Print the word list
-  std::printf("\n=== Word list:\n");
-  for (auto p : s_wordsArray)
-    std::printf("%s %d\n", p->data, p->count);
+    lookupWords();
 
-  lookupWords();
-
-  printf("\n=== Total words found: %d\n", s_totalFound);
-
+    printf("\n=== Total words found: %d\n", s_totalFound);
+  }
+  catch (std::exception &e)
+  {
+    std::printf("error %s\n", e.what());
+  }
   // Free the memory address returned using malloc()
   free(s_word.data);
 
