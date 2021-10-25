@@ -1,10 +1,9 @@
 #include <iostream>
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <thread>
 #include <vector>
-#include <fstream>
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -30,6 +29,7 @@ struct Word
 //global variables
 std::vector<Word *> s_wordsArray;
 Word s_word;
+int s_totalFound;
 
 // variable used protect shared data from being simultaneously accessed by multiple threads
 std::mutex wordLock;
@@ -68,14 +68,14 @@ void workerThread()
     if (s_word.data[0]) // Do we have a new word?
     {
 
-      printf("workerThread 1: %s\n", s_word.data);
+      //printf("workerThread 1: %s\n", s_word.data);
       // Create a new Word object with the input data
       Word *w = new Word(s_word.data);
       ++w->count;
-      printf("workerThread local w: %s, %i \n", w->data, w->count);
+      //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
       endEncountered = std::strcmp(s_word.data, "end") == 0;
-      std::cout << "==endEncountered==" << endEncountered << std::endl;
+      //std::cout << "==endEncountered==" << endEncountered << std::endl;
       s_word.data[0] = 0; // Inform the producer that we consumed the word
 
       if (!endEncountered)
@@ -85,7 +85,7 @@ void workerThread()
         {
           if (!std::strcmp(p->data, w->data))
           {
-            std::cout << "both string same: " << p->data << std::endl;
+            //std::cout << "both string same: " << p->data << std::endl;
             ++p->count;
             found = true;
             break;
@@ -96,7 +96,7 @@ void workerThread()
           s_wordsArray.push_back(w);
       }
 
-      printf("workerThread Output: %s\n", s_word.data);
+      //printf("workerThread Output: %s\n", s_word.data);
     }
   }
 
@@ -109,6 +109,7 @@ void workerThread()
 //
 void readInputWords()
 {
+  std::cout << "***********start readInputWords***********" << std::endl;
   bool endEncountered = false;
 
   std::thread *worker = new std::thread(workerThread);
@@ -138,66 +139,70 @@ void readInputWords()
   worker->join();
 
   //do I need a destructor for workerThread ???
+  std::cout << "***********end readInputWords***********" << std::endl;
 }
 
 // Repeatedly ask the user for a word and check whether it was present in the word list
 // Terminate on EOF
 //
-void lookupWords ()
+void lookupWords()
 {
-  bool found;
-  char * linebuf = new char[32];
-    
+  std::cout << "***********start lookupWords***********" << std::endl;
+  bool found = false;
+  char *linebuf = new char[32];
+
   // for(;;)
   // {
-    std::cout << "Enter a word for lookup: " << std::endl;
-    if (std::scanf( "%s", linebuf ) == EOF)
-      return;
+  std::cout << "Enter a word for lookup: " << std::endl;
+  if (std::scanf("%s", linebuf) == EOF)
+    return;
 
-  //   // Initialize the word to search for
-  //   Word * w = new Word();
-  //   std::strcpy( w->data, linebuf );
+  //??? maybe need to delete after new to avoid memory leak ?
 
-  //   // Search for the word
-  //   unsigned i;
-  //   for ( i = 0; i < s_wordsArray.size(); ++i )
-  //   {
-  //     if (std::strcmp( s_wordsArray[i]->data, w->data ) == 0)
-  //     {
-  //       found = true;
-  //       break;
-  //     }
-  //   }customLess
+  // Initialize the word to search for
+  Word *w = new Word(linebuf);
+  // //copy linebuf data into s_word.data
+  // w->data = my_strdup(linebuf);
 
-  //   if (found)
-  //   {
-  //     std::printf( "SUCCESS: '%s' was present %d times in the initial word list\n",
-  //                  s_wordsArray[i]->data, s_wordsArray[i]->count );
-  //     ++s_totalFound;
-  //   }
-  //   else
-  //     std::printf( "'%s' was NOT found in the initial word list\n", w->data );
-  // }
+  // Search for the word
+  for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
+  {
+    //std::cout << "---s_wordsArray[i]->data---" << s_wordsArray[i]->data << std::endl;
+    //std::cout << "---w->data---" << w->data << std::endl;
+    if (std::strcmp(s_wordsArray[i]->data, w->data) == 0)
+    {
+      std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
+                  s_wordsArray[i]->data, s_wordsArray[i]->count);
+      found = true;
+      ++s_totalFound;
+      break;
+    }
+  }
+
+  if (!found)
+  {
+    std::printf("'%s' was NOT found in the initial word list\n", w->data);
+  }
+  std::cout << "***********end lookupWords***********" << std::endl;
 }
-
 
 /**This method compares two Words alphabetically
  * @param[in] first: pointer pointing to the beginning of first Word 
  * @param[in] second: pointer pointing to the beginning of second Word 
  * @return true if [first, second] is in alphabetical order, false else
- */ 
-bool compareWords(Word* first, Word* second)
+ */
+bool compareWords(Word *first, Word *second)
 {
   std::string firstStr = first->data;
   std::string secondStr = second->data;
   //minimum size between the two strings
   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
-  for(unsigned int i = 0; i < minStringSize; ++i)
+  for (unsigned int i = 0; i < minStringSize; ++i)
   {
-      if(firstStr[i] < secondStr[i])
-        return true;
-      else if(firstStr[i] > secondStr[i])
-        return false;
+    if (firstStr[i] < secondStr[i])
+      return true;
+    else if (firstStr[i] > secondStr[i])
+      return false;
   }
   return false;
 }
@@ -209,12 +214,16 @@ int main()
   readInputWords();
 
   // Sort the words alphabetically
-  std::sort( s_wordsArray.begin(), s_wordsArray.end(), compareWords);
+  std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
   // Print the word list
   std::printf("\n=== Word list:\n");
   for (auto p : s_wordsArray)
     std::printf("%s %d\n", p->data, p->count);
+
+  lookupWords();
+
+  printf("\n=== Total words found: %d\n", s_totalFound);
 
   // Free the memory address returned using malloc()
   free(s_word.data);
