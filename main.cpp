@@ -23,8 +23,11 @@ struct Word
 };
 
 //global variables
+// vector used to store the list of words entered by user
 std::vector<Word *> s_wordsArray;
+// current word
 Word s_word;
+// total number of words found during the research of the user
 int s_totalFound;
 
 // variable used protect shared data from being simultaneously accessed by multiple threads
@@ -51,8 +54,7 @@ char *my_strdup(char *input)
 // the word 'end' is encountered.
 void workerThread()
 {
-  std::cout << "***********start the worker thread***********" << std::endl;
-  //std::lock_guard The class lock_guard is a mutex wrapper that provides a convenient RAII-style mechanism for owning a mutex for the duration of a scoped block.
+  //set the mutex for the duration of a scoped block
   std::lock_guard<std::mutex> lock(wordLock);
 
   bool endEncountered = false;
@@ -61,18 +63,19 @@ void workerThread()
   //remove the duplicates
   while (!endEncountered)
   {
-    if (s_word.data[0]) // Do we have a new word?
+    //check if there is a new word
+    if (s_word.data[0])
     {
-
-      //printf("workerThread 1: %s\n", s_word.data);
       // Create a new Word object with the input data
+      // ??? do I need a delete w later?
       Word *w = new Word(s_word.data);
       ++w->count;
       //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
+      // Check if the word "end" is encountered
       endEncountered = std::strcmp(s_word.data, "end") == 0;
-      //std::cout << "==endEncountered==" << endEncountered << std::endl;
-      s_word.data[0] = 0; // Inform the producer that we consumed the word
+      // Inform the producer that we consumed the word
+      s_word.data[0] = 0;
 
       if (!endEncountered)
       {
@@ -81,7 +84,6 @@ void workerThread()
         {
           if (!std::strcmp(p->data, w->data))
           {
-            //std::cout << "both string same: " << p->data << std::endl;
             ++p->count;
             found = true;
             break;
@@ -91,12 +93,9 @@ void workerThread()
         if (!found)
           s_wordsArray.push_back(w);
       }
-
       //printf("workerThread Output: %s\n", s_word.data);
     }
   }
-
-  std::cout << "***********end the worker thread***********" << std::endl;
 }
 
 // Read input words from STDIN and pass them to the worker thread for
@@ -105,37 +104,31 @@ void workerThread()
 //
 void readInputWords()
 {
-  std::cout << "***********start readInputWords***********" << std::endl;
   bool endEncountered = false;
 
   std::thread *worker = new std::thread(workerThread);
 
+  // buffer to store input word fro, user
   char *linebuf = new char[32];
 
   while (!endEncountered)
   {
-    std::cout << "-----readInput---" << std::endl;
+    std::cout << "Read input word: " << std::endl;
+    // if end of file is detected return
     if (std::scanf("%s", linebuf) == EOF) //eof
       return;
 
-    // for (unsigned int i = 0; i < 32; ++i)
-    //   std::cout << i << ": " << *(linebuf + i) << std::endl;
-
+    // check if the word "end" has been encountered
     endEncountered = std::strcmp(linebuf, "end") == 0;
-
-    // std::cout << "==endEncountered==" << endEncountered << std::endl;
-    // Pass the word to the worker thread
 
     //copy linebuf data into s_word.data
     s_word.data = my_strdup(linebuf);
-    // printf("Input: %s\n", linebuf);
   }
 
   // Wait for the worker to terminate
   worker->join();
 
   //do I need a destructor for workerThread ???
-  std::cout << "***********end readInputWords***********" << std::endl;
 }
 
 // Repeatedly ask the user for a word and check whether it was present in the word list
@@ -143,7 +136,6 @@ void readInputWords()
 //
 void lookupWords()
 {
-  std::cout << "***********start lookupWords***********" << std::endl;
   bool found = false;
   char *linebuf = new char[32];
 
@@ -164,8 +156,6 @@ void lookupWords()
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
-      //std::cout << "---s_wordsArray[i]->data---" << s_wordsArray[i]->data << std::endl;
-      //std::cout << "---w->data---" << w->data << std::endl;
       if (std::strcmp(s_wordsArray[i]->data, w->data) == 0)
       {
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
@@ -179,12 +169,9 @@ void lookupWords()
     {
       std::printf("'%s' was NOT found in the initial word list\n", w->data);
     }
-
     delete w;
   }
   delete linebuf;
-
-  std::cout << "***********end lookupWords***********" << std::endl;
 }
 
 /**This method compares two Words alphabetically
@@ -213,7 +200,7 @@ int main()
   //TODO understand try{} catch{}
   try
   {
-    /*******readInputWords()*****/
+    // Read input words from user entry via STDIN
     readInputWords();
 
     // Sort the words alphabetically
