@@ -22,11 +22,16 @@ struct Word
   }
 };
 
+
+//TODO try to put as param remove from global
 //global variables
 // vector used to store the list of words entered by user
-std::vector<Word *> s_wordsArray;
+// variable global only can be accessed here
+static std::vector<Word *> s_wordsArray;
 // current word
 Word s_word;
+
+//TODO remove it from global
 // total number of words found during the research of the user
 int s_totalFound;
 
@@ -106,6 +111,7 @@ void readInputWords()
 {
   bool endEncountered = false;
 
+  //TODO is it better to use object instead of pointer here?
   std::thread *worker = new std::thread(workerThread);
 
   // buffer to store input word fro, user
@@ -122,6 +128,7 @@ void readInputWords()
     endEncountered = std::strcmp(linebuf, "end") == 0;
 
     //copy linebuf data into s_word.data
+    //TODO check if my_strdup returns NULL manage
     s_word.data = my_strdup(linebuf);
   }
 
@@ -134,6 +141,8 @@ void readInputWords()
 // Repeatedly ask the user for a word and check whether it was present in the word list
 // Terminate on EOF
 //
+
+// TODO: add param by reference "s-total found" to remove global variable
 void lookupWords()
 {
   bool found = false;
@@ -146,6 +155,8 @@ void lookupWords()
   {
     std::cout << "Enter a word for lookup: " << std::endl;
 
+    // TODO: print out linebuf, TODO try /0
+    // ctrl+D to test EOF
     if (std::scanf("%s", linebuf) == EOF)
       return;
 
@@ -183,6 +194,7 @@ bool compareWords(Word *first, Word *second)
 {
   std::string firstStr = first->data;
   std::string secondStr = second->data;
+  //TODO try strcmp, put all upper case => indicate that in readme
   //minimum size between the two strings
   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
   for (unsigned int i = 0; i < minStringSize; ++i)
@@ -204,6 +216,7 @@ int main()
     readInputWords();
 
     // Sort the words alphabetically
+    //TODO: strcmp to remplace compare words 
     std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
     // Print the word list
@@ -214,6 +227,10 @@ int main()
     lookupWords();
 
     printf("\n=== Total words found: %d\n", s_totalFound);
+
+
+    //TODO: do I need to add throw to select the characters I can enter
+    //TODO: add throw to check the length of the string entered
   }
   catch (std::exception &e)
   {
