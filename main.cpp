@@ -8,26 +8,54 @@
 //maximum number of characters that a word can have
 #define WORD_MAX_SIZE 32
 
-struct Word
+//CHANGELOG: convert Word into a class so that the data and count can be encapsulated. Avoid them from accessing by others uninetentionally
+class Word
 {
-  char *data;
-  int count;
 
+public:
   Word(char *data_) : // ::strdup() is C not C++. Note that we need to manually free data afterwards.
                       data(::strdup(data_)),
+                      //We need to add 1 for "/0" to indicate the end of the char array
+                      size((unsigned)strlen(data_) + 1),
                       count(0)
   {
   }
 
   Word() : data((char *)""),
+            //1 for "/0"
+           size(1),
            count(0)
   {
   }
 
-  // ~Word()
-  // {
-  //   free(data);
-  // }
+  //CHANGELOG: add destructor so that the object can be properly destroyed: it allows to release memory before the class instance is destroyed. This must be done to avoid memory leak.
+
+  //TODO: why I don't need to delete data???
+  ~Word()
+  {
+    /*delete[] data;*/
+    //CHANGELOOG: The standard library function strdup calls malloc(). The memory cleanup should be done using free().
+    if (data)
+      free(data);
+  }
+
+  void incrementCount()
+  {
+    ++count;
+  }
+
+  unsigned int getCount()
+  {
+    return count;
+  }
+
+  char *data;
+  //CHANGELOG: add size so that we can handle data easily
+  // size of data
+  unsigned int size;
+
+private:
+  unsigned int count;
 };
 
 //TODO try to put as param remove from global
@@ -93,7 +121,7 @@ void workerThread()
       // Create a new Word object with the input data
       // ??? do I need a delete w later?
       Word *w = new Word(s_word.data);
-      ++w->count;
+      w->incrementCount();
       //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
       // Check if the word "end" is encountered
@@ -110,7 +138,7 @@ void workerThread()
           std::cout << "===4===" << std::endl;
           if (!std::strcmp(p->data, w->data))
           {
-            ++p->count;
+            p->incrementCount();
             found = true;
             break;
           }
@@ -225,7 +253,7 @@ void lookupWords()
       if (std::strcmp(s_wordsArray[i]->data, w.data) == 0)
       {
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
-                    s_wordsArray[i]->data, s_wordsArray[i]->count);
+                    s_wordsArray[i]->data, s_wordsArray[i]->getCount());
         found = true;
         ++s_totalFound;
         break;
@@ -275,7 +303,7 @@ int main()
     // Print the word list
     std::printf("\n=== Word list:\n");
     for (auto p : s_wordsArray)
-      std::printf("%s %d\n", p->data, p->count);
+      std::printf("%s %d\n", p->data, p->getCount());
 
     lookupWords();
 
