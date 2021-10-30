@@ -5,6 +5,9 @@
 #include <cstring>
 #include <mutex>
 
+//maximum number of characters that a word can have
+#define WORD_MAX_SIZE 32
+
 struct Word
 {
   char *data;
@@ -115,7 +118,7 @@ void readInputWords()
   std::thread *worker = new std::thread(workerThread);
 
   // buffer to store input word fro, user
-  char *linebuf = new char[32];
+  char *linebuf = new char[WORD_MAX_SIZE];
 
   while (!endEncountered)
   {
@@ -146,7 +149,7 @@ void readInputWords()
 void lookupWords()
 {
   bool found = false;
-  char *linebuf = new char[32];
+  char *linebuf = new char[WORD_MAX_SIZE];
 
   //TODO: not sure about the ending conditions
   //TODO: do I need to introduce filestream to be able to use EOF ?
