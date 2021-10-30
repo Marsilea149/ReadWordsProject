@@ -64,9 +64,12 @@ To use this project, please follow the procedure below in order:
 Please follow the steps below to use the program after installation:
 1. Run the executable that you generated, in your terminal of *YourLocalFolder*,  type ```./ReadWords```
 2. In your terminal, the message ```Please enter a word``` is shown to ask you to enter a word. You can enter a word within **31** characters.
-  Once you entered a word, please press *Enter* key, the message ```Please enter a word``` is shown again to ask you to enter another word. 
+  Once you entered a word, please press *Enter* key, the message ```Please enter a word``` is shown again to ask you to enter another word.
+
   The program keeps asking you enter a word. When you are done with entering words, please enter the word "end" and press *Enter* to terminate readInputWord step.
-    Note that you can words of length enter up to 31 characters, if you entered 32 or more characters, the word is not saved for lookup and the program displays a message notifying you the word you entered is to long and asks you to enter another word.
+  
+    Note that you entercan words of length enter up to 31 characters, if you entered 32 or more characters, the word is not saved for lookup and the program displays a message notifying you the word you entered is to long and asks you to enter another word.
+
     Note that if you press *ctrl* + *d* during this step, as it expects the word "end" before end of file, the program will terminates with displaying the message ```EOF encountered without having 'end' word in user input. Quitting the program.```
 3. Word list is shown in your terminal. It contains all the words you entered, without duplicate, in alphabetic order. And the message ```Enter a word for lookup:``` is shown in your terminal. 
 4. Enter a word that you want to lookup, then press *Enter*. A message is displayed in your terminal to indcate if the word has been found among the words you entered previously. And the message ```Enter a word for lookup:``` shows again.
