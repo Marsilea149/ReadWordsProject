@@ -61,6 +61,7 @@ char *my_strdup(char *input)
 // the word 'end' is encountered.
 void workerThread()
 {
+  std::cout << "=====================================workerThread begin========================" << std::endl;
   //set the mutex for the duration of a scoped block
   std::lock_guard<std::mutex> lock(wordLock);
 
@@ -73,6 +74,7 @@ void workerThread()
     //check if there is a new word
     if (s_word.data[0])
     {
+      std::cout << "===2===" << std::endl;
       // Create a new Word object with the input data
       // ??? do I need a delete w later?
       Word *w = new Word(s_word.data);
@@ -86,9 +88,11 @@ void workerThread()
 
       if (!endEncountered)
       {
+        std::cout << "===3===" << std::endl;
         // Do not insert duplicate words
         for (auto p : s_wordsArray)
         {
+          std::cout << "===4===" << std::endl;
           if (!std::strcmp(p->data, w->data))
           {
             ++p->count;
@@ -96,13 +100,14 @@ void workerThread()
             break;
           }
         }
-
+        std::cout << "===5===" << std::endl;
         if (!found)
           s_wordsArray.push_back(w);
       }
       //printf("workerThread Output: %s\n", s_word.data);
     }
   }
+  std::cout << "=====================================workerThread end========================" << std::endl;
 }
 
 // Read input words from STDIN and pass them to the worker thread for
@@ -111,6 +116,7 @@ void workerThread()
 //
 void readInputWords()
 {
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords begin~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   bool endEncountered = false;
 
   //TODO is it better to use object instead of pointer here?
@@ -118,18 +124,29 @@ void readInputWords()
 
   // buffer to store input word fro, user
   char *linebuf = new char[WORD_MAX_SIZE];
-
+  std::cout << "~~~1~~~" << std::endl;
   while (!endEncountered)
   {
-    std::cout << "Please enter a word: " << std::endl;
+    //TODO: Manage EOF without "end" having been entered
 
+    std::cout << "Please enter a word: " << std::endl;
+    std::cout << "~~~2~~~" << std::endl;
     // inputSuccess is used to check the validity of the word user entered
     int inputSuccess = std::scanf("%s", linebuf);
+
+    // if end of file is detected return
+    if (inputSuccess == EOF) //eof
+    {
+      std::cout << "~~~555~~~" << std::endl;
+      return;
+    }
+
     // inputSize is used to store the length of the word that user entered
     unsigned int inputSize = (unsigned)strlen(linebuf);
     // Manage input word length, when it is too long, asks the user to enter a shorter word
     while (inputSize > (WORD_MAX_SIZE - 1))
     {
+      std::cout << "~~~3~~~" << std::endl;
       std::cout << "You are allowed to enter up to " << WORD_MAX_SIZE - 1 << "(included) charcters. You entered: "
                 << inputSize << " characters. Please enter a shorter word: " << std::endl;
       inputSuccess = std::scanf("%s", linebuf);
@@ -139,7 +156,7 @@ void readInputWords()
       if (inputSuccess == EOF) //eof
         return;
     }
-
+    std::cout << "~~~4~~~" << std::endl;
     // check if the word "end" has been encountered
     endEncountered = std::strcmp(linebuf, "end") == 0;
 
@@ -147,9 +164,10 @@ void readInputWords()
     //TODO check if my_strdup returns NULL manage
     s_word.data = my_strdup(linebuf);
   }
-
+  std::cout << "~~~5~~~" << std::endl;
   // Wait for the worker to terminate
   worker->join();
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords end~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 
   //do I need a destructor for workerThread ???
 }
