@@ -62,7 +62,7 @@ private:
 //global variables
 // vector used to store the list of words entered by user
 // variable global only can be accessed here
-static std::vector<Word *> s_wordsArray;
+static std::vector<Word> s_wordsArray;
 // current word
 Word s_word;
 
@@ -120,8 +120,8 @@ void workerThread()
       std::cout << "===2===" << std::endl;
       // Create a new Word object with the input data
       // ??? do I need a delete w later?
-      Word *w = new Word(s_word.data);
-      w->incrementCount();
+      Word w(s_word.data);
+      w.incrementCount();
       //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
       // Check if the word "end" is encountered
@@ -136,9 +136,9 @@ void workerThread()
         for (auto p : s_wordsArray)
         {
           std::cout << "===4===" << std::endl;
-          if (!std::strcmp(p->data, w->data))
+          if (!std::strcmp(p.data, w.data))
           {
-            p->incrementCount();
+            p.incrementCount();
             found = true;
             break;
           }
@@ -148,7 +148,7 @@ void workerThread()
           s_wordsArray.push_back(w);
       }
       //printf("workerThread Output: %s\n", s_word.data);
-      delete[] w;
+      // delete[] w;
     }
   }
   std::cout << "=====================================workerThread end========================" << std::endl;
@@ -250,10 +250,10 @@ void lookupWords()
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
-      if (std::strcmp(s_wordsArray[i]->data, w.data) == 0)
+      if (std::strcmp(s_wordsArray[i].data, w.data) == 0)
       {
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
-                    s_wordsArray[i]->data, s_wordsArray[i]->getCount());
+                    s_wordsArray[i].data, s_wordsArray[i].getCount());
         found = true;
         ++s_totalFound;
         break;
@@ -271,10 +271,26 @@ void lookupWords()
  * @param[in] second: pointer pointing to the beginning of second Word 
  * @return true if [first, second] is in alphabetical order, false else
  */
-bool compareWords(Word *first, Word *second)
+// bool compareWords(Word *first, Word *second)
+// {
+//   std::string firstStr = first->data;
+//   std::string secondStr = second->data;
+//   //TODO try strcmp, put all upper case => indicate that in readme
+//   //minimum size between the two strings
+//   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
+//   for (unsigned int i = 0; i < minStringSize; ++i)
+//   {
+//     if (firstStr[i] < secondStr[i])
+//       return true;
+//     else if (firstStr[i] > secondStr[i])
+//       return false;
+//   }
+//   return false;
+// }
+bool compareWords(Word first, Word second)
 {
-  std::string firstStr = first->data;
-  std::string secondStr = second->data;
+  std::string firstStr = first.data;
+  std::string secondStr = second.data;
   //TODO try strcmp, put all upper case => indicate that in readme
   //minimum size between the two strings
   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
@@ -303,7 +319,7 @@ int main()
     // Print the word list
     std::printf("\n=== Word list:\n");
     for (auto p : s_wordsArray)
-      std::printf("%s %d\n", p->data, p->getCount());
+      std::printf("%s %d\n", p.data, p.getCount());
 
     lookupWords();
 
