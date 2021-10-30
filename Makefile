@@ -10,7 +10,7 @@ LDFLAGS = -lpthread
 # Makefile settings - Can be customized.
 APPNAME = ReadWords
 EXT = .cpp
-SRCDIR = /home/bingbing/Documents/WolvenPlanet/ReadWordsProject
+SRCDIR = /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/src
 OBJDIR = obj
 
 ############## Do not change anything from here downwards! #############
