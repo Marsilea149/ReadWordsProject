@@ -23,6 +23,8 @@ Here is a random GIF as a placeholder.
 - [Demo-Preview](#demo-preview)
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
+- [Usage](#usage)
+- [Development](#development)
 - [Contribute](#contribute)
     - [Sponsor](#sponsor)
     - [Adding new features or fixing bugs](#adding-new-features-or-fixing-bugs)
@@ -33,19 +35,21 @@ Here is a random GIF as a placeholder.
 [(Back to top)](#table-of-contents)
 
 Prerequisit:
-- For this porject, Linux environment is used.
-- Valgrind installed for memory leak tracking
-  - To install it, run in your terminal:
+1. For this porject, Linux environment is used.
+2. Valgrind installed for memory leak tracking
+    To install it, run in your terminal:
 ``` sudo apt install valgrind  # Ubuntu, Debian, etc.
-    sudo yum install valgrind  # RHEL, CentOS, Fedora, etc.```
-- GTest installed
-    -To install it, follow the steps below: 
+    sudo yum install valgrind  # RHEL, CentOS, Fedora, etc.
+```
+3. GTest installed
+    To install it, follow the steps below: 
     ``` sudo apt-get install libgtest-dev
         sudo apt-get install cmake
         cd /usr/src/gtest
         sudo cmake CMakeLists.txt
         sudo make
-        sudo cp *.a /usr/lib```
+        sudo cp *.a /usr/lib
+    ```
 
 
 To use this project, please follow the procedure below in order:
