@@ -32,8 +32,6 @@ void workerThread()
   std::lock_guard<std::mutex> lock(wordLock);
 
   bool endEncountered = false;
-  bool found = false;
-
   //remove the duplicates
   while (!endEncountered)
   {
@@ -56,6 +54,7 @@ void workerThread()
 
       if (!endEncountered)
       {
+        bool found = false;
         // Do not insert duplicate words
         for (auto p : s_wordsArray)
         {
@@ -124,6 +123,9 @@ void readInputWords()
 
     //copy linebuf data into s_word.data
     s_word.setData(linebuf.get(), inputSize);
+
+    while (s_word.getData()[0])
+      ;
   }
   // Wait for the worker to terminate
   worker.join();
