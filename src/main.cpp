@@ -7,18 +7,14 @@
 
 #include "../include/Word.hpp"
 
+// Note: static keyword: variable global only can be accessed here
 
 //TODO try to put as param remove from global
-//global variables
 // vector used to store the list of words entered by user
-// variable global only can be accessed here
 static std::vector<Word> s_wordsArray;
+
 // current word
 Word s_word;
-
-//TODO remove it from global
-// total number of words found during the research of the user
-int s_totalFound;
 
 // variable used protect shared data from being simultaneously accessed by multiple threads
 std::mutex wordLock;
@@ -26,12 +22,12 @@ std::mutex wordLock;
 // true when end of file is encountered, false else
 bool eofEncountered;
 
-// Worker thread: consume words passed from the main thread and insert them
-// in the 'word list' (s_wordsArray), while removing duplicates. Terminate when
-// the word 'end' is encountered.
+/**Worker thread: consume words passed from the main thread and insert them
+ * in the 'word list' (s_wordsArray), while removing duplicates. Terminate when
+ * the word 'end' is encountered.
+ */
 void workerThread()
 {
-  std::cout << "=====================================workerThread begin========================" << std::endl;
   //set the mutex for the duration of a scoped block
   std::lock_guard<std::mutex> lock(wordLock);
 
@@ -41,34 +37,28 @@ void workerThread()
   //remove the duplicates
   while (!endEncountered)
   {
-    //TODO: Manage EOF without "end" having been entered
     if (eofEncountered)
       break;
 
     //check if there is a new word
     if (s_word.getData()[0])
     {
-      std::cout << "===2===" << std::endl;
       // Create a new Word object with the input data
-      // ??? do I need a delete w later?
       Word w(s_word.getData());
       w.incrementCount();
-      //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
       // Check if the word "end" is encountered
       endEncountered = std::strcmp(s_word.getData(), "end") == 0;
+
       // Inform the producer that we consumed the word
-      //s_word.getData()[0] = 0;
-      char *empty = "";
+      char *empty = (char *)"";
       s_word.setData(empty, 1);
 
       if (!endEncountered)
       {
-        std::cout << "===3===" << std::endl;
         // Do not insert duplicate words
         for (auto p : s_wordsArray)
         {
-          std::cout << "===4===" << std::endl;
           if (!std::strcmp(p.getData(), w.getData()))
           {
             p.incrementCount();
@@ -76,50 +66,43 @@ void workerThread()
             break;
           }
         }
-        std::cout << "===5===" << std::endl;
         if (!found)
           s_wordsArray.push_back(w);
       }
     }
   }
-  std::cout << "=====================================workerThread end========================" << std::endl;
 }
 
-// Read input words from STDIN and pass them to the worker thread for
-// inclusion in the word list.
-// Terminate when the word 'end' has been entered.
-//
+/**Read input words from STDIN and pass them to the worker thread for inclusion in the word list.
+ * Terminate when the word 'end' has been entered. If there is no 'end' before EOF, an exception is thrown.
+ * When user entered an word too long, print out a message to ask enter another word.
+ */
 void readInputWords()
 {
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords begin~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   bool endEncountered = false;
   eofEncountered = false;
-  //TODO is it better to use object instead of pointer here?
+  // create a worker thread to process the word that the user entered
+  // Note: I prefer to use the object here, because pointer with 'new' may cause memory issue
   std::thread worker = std::thread(workerThread);
 
-  // buffer to store input word fro, user
-  //char *linebuf = new char[WORD_MAX_SIZE];
-  // CHANGELOG: replaced char * with smart pointer so that linebuf get deleted automatically once it is not used anymore
+  // buffer to store input word from user
+  // Note: replaced char * with smart pointer so that linebuf get deleted automatically once it is not used anymore
   std::unique_ptr<char[]> linebuf(new char[WORD_MAX_SIZE]);
 
-  std::cout << "~~~1~~~" << std::endl;
   while (!endEncountered)
   {
     std::cout << "Please enter a word: " << std::endl;
-    std::cout << "~~~2~~~" << std::endl;
     // inputSuccess is used to check the validity of the word user entered
     int inputSuccess = std::scanf("%s", linebuf.get());
 
-    // if end of file is detected return / throw an exception TODO update comment
+    // if end of file is detected throw an exception
     if (inputSuccess == EOF)
     {
-      //CHANGELOG: eofEncountered is introduced to informe worker thread to stop working as user input error happens
+      // Note: eofEncountered is introduced to informe worker thread to stop working as user input error happens
       eofEncountered = true;
-      //CHANGELOG: for thread safety, we have to make sure that worker thread has completely finished working, so that the thread object becomes non-joinable and can be destroyed safely.
+      // Note: for thread safety, we have to make sure that worker thread has completely finished working, so that the thread object becomes non-joinable and can be destroyed safely.
       worker.join();
-      //TODO is it better to use return + a std::cout or use throw?
       throw(std::invalid_argument("EOF encountered without having 'end' word in user input. Quitting the program."));
-      // return;
     }
 
     // inputSize is used to store the length of the word that user entered
@@ -127,69 +110,61 @@ void readInputWords()
     // Manage input word length, when it is too long, asks the user to enter a shorter word
     while (inputSize > (WORD_MAX_SIZE - 1))
     {
-      std::cout << "~~~3~~~" << std::endl;
       std::cout << "You are allowed to enter up to " << WORD_MAX_SIZE - 1 << "(included) charcters. You entered: "
                 << inputSize << " characters. Please enter a shorter word: " << std::endl;
       inputSuccess = std::scanf("%s", linebuf.get());
       inputSize = (unsigned)strlen(linebuf.get());
 
       // if end of file is detected return
-      if (inputSuccess == EOF) //eof
+      if (inputSuccess == EOF)
         return;
     }
-    std::cout << "~~~4~~~" << std::endl;
     // check if the word "end" has been encountered
     endEncountered = std::strcmp(linebuf.get(), "end") == 0;
 
     //copy linebuf data into s_word.data
-    //TODO check if my_strdup returns NULL manage
     s_word.setData(linebuf.get(), inputSize);
   }
-  std::cout << "~~~5~~~" << std::endl;
   // Wait for the worker to terminate
   worker.join();
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords end~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  //do I need a destructor for workerThread ???
 }
 
-// Repeatedly ask the user for a word and check whether it was present in the word list
-// Terminate on EOF
-//
-
+/**Repeatedly ask the user for a word and check whether it was present in the word list
+ * erminate on EOF
+ * @param[out] totalFound: total number of words found during lookupWords
+ */
 // TODO: add param by reference "s-total found" to remove global variable
-void lookupWords()
+void lookupWords(unsigned int &totalFound)
 {
-  bool found = false;
+  // Note: smart pointer is chosen to better manage memory
   std::unique_ptr<char[]> linebuf(new char[WORD_MAX_SIZE]);
 
-  //TODO: not sure about the ending conditions
-  //TODO: do I need to introduce filestream to be able to use EOF ?
-  //std::scanf("%s", linebuf) != EOF
   while (1)
   {
     std::cout << "Enter a word for lookup: " << std::endl;
 
-    // TODO: print out linebuf, TODO try /0
-    // ctrl+D to test EOF
+    // Note: please enter ctrl+D to test EOF in linux
     if (std::scanf("%s", linebuf.get()) == EOF)
       return;
 
-    //TODO: replace w with local object instead of new
+    // Note: I chose to change point with 'new' into object to avoid memory issue
     // Initialize the word to search for
     Word w = Word(linebuf.get());
 
+    bool found = false;
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
       if (std::strcmp(s_wordsArray[i].getData(), w.getData()) == 0)
       {
+        found = true;
+        ++totalFound;
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
                     s_wordsArray[i].getData(), s_wordsArray[i].getCount());
-        found = true;
-        ++s_totalFound;
         break;
       }
     }
+
     if (!found)
     {
       std::printf("'%s' was NOT found in the initial word list\n", w.getData());
@@ -221,14 +196,12 @@ bool compareWords(Word const &first, Word const &second)
 
 int main()
 {
-  //TODO understand try{} catch{}
   try
   {
     // Read input words from user entry via STDIN
     readInputWords();
 
     // Sort the words alphabetically
-    //TODO: strcmp to remplace compare words
     std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
     // Print the word list
@@ -236,24 +209,15 @@ int main()
     for (auto p : s_wordsArray)
       std::printf("%s %d\n", p.getData(), p.getCount());
 
-    lookupWords();
-
-    printf("\n=== Total words found: %d\n", s_totalFound);
-
-    //TODO: do I need to add throw to select the characters I can enter
-    //TODO: add throw to check the length of the string entered
+    // lookup words and update 'totalFoundWords'
+    unsigned int totalFoundWords = 0;
+    lookupWords(totalFoundWords);
+    printf("\n=== Total words found: %d\n", totalFoundWords);
   }
   catch (std::exception &e)
   {
     std::printf("error %s\n", e.what());
   }
-  // Free the memory address returned using malloc()
-  // free(s_word.data);
 
-  //TODO: not sure if necessary
-  s_wordsArray.clear();
-  s_wordsArray.shrink_to_fit();
-  std::cout << "The vector size is " << s_wordsArray.size() << ", and its "
-            << "capacity is " << s_wordsArray.capacity() << std::endl;
   return 0;
 }
