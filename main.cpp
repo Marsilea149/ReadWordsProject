@@ -25,7 +25,6 @@ struct Word
   }
 };
 
-
 //TODO try to put as param remove from global
 //global variables
 // vector used to store the list of words entered by user
@@ -122,10 +121,24 @@ void readInputWords()
 
   while (!endEncountered)
   {
-    std::cout << "Read input word: " << std::endl;
-    // if end of file is detected return
-    if (std::scanf("%s", linebuf) == EOF) //eof
-      return;
+    std::cout << "Please enter a word: " << std::endl;
+
+    // inputSuccess is used to check the validity of the word user entered
+    int inputSuccess = std::scanf("%s", linebuf);
+    // inputSize is used to store the length of the word that user entered
+    unsigned int inputSize = (unsigned)strlen(linebuf);
+    // Manage input word length, when it is too long, asks the user to enter a shorter word
+    while (inputSize > (WORD_MAX_SIZE - 1))
+    {
+      std::cout << "You are allowed to enter up to " << WORD_MAX_SIZE - 1 << "(included) charcters. You entered: "
+                << inputSize << " characters. Please enter a shorter word: " << std::endl;
+      inputSuccess = std::scanf("%s", linebuf);
+      inputSize = (unsigned)strlen(linebuf);
+
+      // if end of file is detected return
+      if (inputSuccess == EOF) //eof
+        return;
+    }
 
     // check if the word "end" has been encountered
     endEncountered = std::strcmp(linebuf, "end") == 0;
@@ -219,7 +232,7 @@ int main()
     readInputWords();
 
     // Sort the words alphabetically
-    //TODO: strcmp to remplace compare words 
+    //TODO: strcmp to remplace compare words
     std::sort(s_wordsArray.begin(), s_wordsArray.end(), compareWords);
 
     // Print the word list
@@ -230,7 +243,6 @@ int main()
     lookupWords();
 
     printf("\n=== Total words found: %d\n", s_totalFound);
-
 
     //TODO: do I need to add throw to select the characters I can enter
     //TODO: add throw to check the length of the string entered
