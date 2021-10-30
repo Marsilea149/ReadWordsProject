@@ -40,6 +40,9 @@ int s_totalFound;
 // variable used protect shared data from being simultaneously accessed by multiple threads
 std::mutex wordLock;
 
+
+bool eofEncountered;
+
 /**This method allows to allocate properly destination memory first,
  * then make a copy of string.
  * @param[in] input: pointer poiting to the first char of the input string, to be copied
@@ -71,6 +74,10 @@ void workerThread()
   //remove the duplicates
   while (!endEncountered)
   {
+    //TODO: Manage EOF without "end" having been entered
+    if(eofEncountered)
+      break;
+
     //check if there is a new word
     if (s_word.data[0])
     {
@@ -118,27 +125,30 @@ void readInputWords()
 {
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords begin~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   bool endEncountered = false;
-
+eofEncountered = false;
   //TODO is it better to use object instead of pointer here?
-  std::thread *worker = new std::thread(workerThread);
+  std::thread worker = std::thread(workerThread);
 
   // buffer to store input word fro, user
   char *linebuf = new char[WORD_MAX_SIZE];
   std::cout << "~~~1~~~" << std::endl;
   while (!endEncountered)
   {
-    //TODO: Manage EOF without "end" having been entered
-
     std::cout << "Please enter a word: " << std::endl;
     std::cout << "~~~2~~~" << std::endl;
     // inputSuccess is used to check the validity of the word user entered
     int inputSuccess = std::scanf("%s", linebuf);
 
-    // if end of file is detected return
-    if (inputSuccess == EOF) //eof
+    // if end of file is detected return / throw an exception TODO update comment
+    if (inputSuccess == EOF) 
     {
-      std::cout << "~~~555~~~" << std::endl;
-      return;
+      //CHANGELOG: eofEncountered is introduced to informe worker thread to stop working as user input error happens
+      eofEncountered = true;
+      //CHANGELOG: for thread safety, we have to make sure that worker thread has completely finished working, so that the thread object becomes non-joinable and can be destroyed safely.
+      worker.join();
+      //TODO is it better to use return + a std::cout or use throw?
+      throw(std::invalid_argument( "EOF encountered without having 'end' word in user input. Quitting the program."));
+      // return;
     }
 
     // inputSize is used to store the length of the word that user entered
@@ -166,7 +176,7 @@ void readInputWords()
   }
   std::cout << "~~~5~~~" << std::endl;
   // Wait for the worker to terminate
-  worker->join();
+  worker.join();
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords end~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
 
   //do I need a destructor for workerThread ???
@@ -196,12 +206,12 @@ void lookupWords()
 
     //TODO: replace w with local object instead of new
     // Initialize the word to search for
-    Word *w = new Word(linebuf);
+    Word w = Word(linebuf);
 
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
-      if (std::strcmp(s_wordsArray[i]->data, w->data) == 0)
+      if (std::strcmp(s_wordsArray[i]->data, w.data) == 0)
       {
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
                     s_wordsArray[i]->data, s_wordsArray[i]->count);
@@ -212,10 +222,11 @@ void lookupWords()
     }
     if (!found)
     {
-      std::printf("'%s' was NOT found in the initial word list\n", w->data);
+      std::printf("'%s' was NOT found in the initial word list\n", w.data);
     }
-    delete w;
+    // delete w;
   }
+
   delete linebuf;
 }
 
