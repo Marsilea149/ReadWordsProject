@@ -38,9 +38,9 @@ Prerequisit:
 1. For this porject, Linux environment is used.
 2. Valgrind installed for memory leak tracking
     To install it, run in your terminal:
-``` sudo apt install valgrind  # Ubuntu, Debian, etc.
-    sudo yum install valgrind  # RHEL, CentOS, Fedora, etc.
-```
+    ``` sudo apt install valgrind  # Ubuntu, Debian, etc.
+        sudo yum install valgrind  # RHEL, CentOS, Fedora, etc.
+    ```
 3. GTest installed
     To install it, follow the steps below: 
     ``` sudo apt-get install libgtest-dev
@@ -62,6 +62,7 @@ To use this project, please follow the procedure below in order:
 [(Back to top)](#table-of-contents)
 
 Please follow the steps below to use the program after installation:
+<p>
 4. Run the executable that you generated, in your terminal of *YourLocalFolder*,  type ```./ReadWords```
 5. In your terminal, the message ```Please enter a word``` is shown to ask you to enter a word. You can enter a word within **31** characters.
   Once you entered a word, please press *Enter* key, the message ```Please enter a word``` is shown again to ask you to enter another word. 
@@ -71,7 +72,7 @@ Please follow the steps below to use the program after installation:
 6. Word list is shown in your terminal. It contains all the words you entered, without duplicate, in alphabetic order. And the message ```Enter a word for lookup:``` is shown in your terminal. 
 7. Enter a word that you want to lookup, then press *Enter*. A message is displayed in your terminal to indcate if the word has been found among the words you entered previously. And the message ```Enter a word for lookup:``` shows again.
 8. To stop the lookup process, type *ctrl* + *d* to make the program understand that it is the end of file. The program ends and displays the number of words got found during lookup process.
-
+</p>
 
 # Development
 [(Back to top)](#table-of-contents)
