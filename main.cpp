@@ -50,6 +50,10 @@ bool eofEncountered;
  */
 char *my_strdup(char *input)
 {
+  //TODO try to use std::unique_ptr here
+// std::unique_ptr<unsigned char[]> output(new unsigned char[len]);
+//     std::copy_n(input.c_str(), input.length() + 1, output.get());
+
   // We need strlen(src) + 1, since we have to account for '\0'
   int len = strlen(input) + 1;
   char *output = (char *)malloc((len + 1) * sizeof(char));
@@ -130,14 +134,17 @@ eofEncountered = false;
   std::thread worker = std::thread(workerThread);
 
   // buffer to store input word fro, user
-  char *linebuf = new char[WORD_MAX_SIZE];
+  //char *linebuf = new char[WORD_MAX_SIZE];
+  // CHANGELOG: replaced char * with smart pointer so that linebuf get deleted automatically once it is not used anymore
+  std::unique_ptr<char[]> linebuf(new char[WORD_MAX_SIZE]);
+
   std::cout << "~~~1~~~" << std::endl;
   while (!endEncountered)
   {
     std::cout << "Please enter a word: " << std::endl;
     std::cout << "~~~2~~~" << std::endl;
     // inputSuccess is used to check the validity of the word user entered
-    int inputSuccess = std::scanf("%s", linebuf);
+    int inputSuccess = std::scanf("%s", linebuf.get());
 
     // if end of file is detected return / throw an exception TODO update comment
     if (inputSuccess == EOF) 
@@ -152,15 +159,15 @@ eofEncountered = false;
     }
 
     // inputSize is used to store the length of the word that user entered
-    unsigned int inputSize = (unsigned)strlen(linebuf);
+    unsigned int inputSize = (unsigned)strlen(linebuf.get());
     // Manage input word length, when it is too long, asks the user to enter a shorter word
     while (inputSize > (WORD_MAX_SIZE - 1))
     {
       std::cout << "~~~3~~~" << std::endl;
       std::cout << "You are allowed to enter up to " << WORD_MAX_SIZE - 1 << "(included) charcters. You entered: "
                 << inputSize << " characters. Please enter a shorter word: " << std::endl;
-      inputSuccess = std::scanf("%s", linebuf);
-      inputSize = (unsigned)strlen(linebuf);
+      inputSuccess = std::scanf("%s", linebuf.get());
+      inputSize = (unsigned)strlen(linebuf.get());
 
       // if end of file is detected return
       if (inputSuccess == EOF) //eof
@@ -168,11 +175,11 @@ eofEncountered = false;
     }
     std::cout << "~~~4~~~" << std::endl;
     // check if the word "end" has been encountered
-    endEncountered = std::strcmp(linebuf, "end") == 0;
+    endEncountered = std::strcmp(linebuf.get(), "end") == 0;
 
     //copy linebuf data into s_word.data
     //TODO check if my_strdup returns NULL manage
-    s_word.data = my_strdup(linebuf);
+    s_word.data = my_strdup(linebuf.get());
   }
   std::cout << "~~~5~~~" << std::endl;
   // Wait for the worker to terminate
@@ -190,7 +197,7 @@ eofEncountered = false;
 void lookupWords()
 {
   bool found = false;
-  char *linebuf = new char[WORD_MAX_SIZE];
+  std::unique_ptr<char[]> linebuf(new char[WORD_MAX_SIZE]);
 
   //TODO: not sure about the ending conditions
   //TODO: do I need to introduce filestream to be able to use EOF ?
@@ -201,12 +208,12 @@ void lookupWords()
 
     // TODO: print out linebuf, TODO try /0
     // ctrl+D to test EOF
-    if (std::scanf("%s", linebuf) == EOF)
+    if (std::scanf("%s", linebuf.get()) == EOF)
       return;
 
     //TODO: replace w with local object instead of new
     // Initialize the word to search for
-    Word w = Word(linebuf);
+    Word w = Word(linebuf.get());
 
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
@@ -224,10 +231,7 @@ void lookupWords()
     {
       std::printf("'%s' was NOT found in the initial word list\n", w.data);
     }
-    // delete w;
   }
-
-  delete linebuf;
 }
 
 /**This method compares two Words alphabetically
