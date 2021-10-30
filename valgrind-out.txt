@@ -1,0 +1,821 @@
+==51376== Memcheck, a memory error detector
+==51376== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==51376== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==51376== Command: ./ReadWords
+==51376== Parent PID: 51238
+==51376== 
+--51376-- 
+--51376-- Valgrind options:
+--51376--    --leak-check=full
+--51376--    --show-leak-kinds=all
+--51376--    --track-origins=yes
+--51376--    --verbose
+--51376--    --log-file=valgrind-out.txt
+--51376-- Contents of /proc/version:
+--51376--   Linux version 5.11.0-38-generic (buildd@lgw01-amd64-041) (gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #42~20.04.1-Ubuntu SMP Tue Sep 28 20:41:07 UTC 2021
+--51376-- 
+--51376-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-rdrand
+--51376-- Page sizes: currently 4096, max supported 4096
+--51376-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--51376-- Reading syms from /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--51376--   Considering /usr/lib/x86_64-linux-gnu/ld-2.31.so ..
+--51376--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--51376--   Considering /lib/x86_64-linux-gnu/ld-2.31.so ..
+--51376--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--51376--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.31.so ..
+--51376--   .. CRC is valid
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--51376--    object doesn't have a symbol table
+--51376--    object doesn't have a dynamic symbol table
+--51376-- Scheduler: using generic scheduler lock implementation.
+--51376-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==51376== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-51376-by-bingbing-on-???
+==51376== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-51376-by-bingbing-on-???
+==51376== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-51376-by-bingbing-on-???
+==51376== 
+==51376== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==51376== don't want to do, unless you know exactly what you're doing,
+==51376== or are doing some strange experiment):
+==51376==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=51376 ...command...
+==51376== 
+==51376== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==51376==   /path/to/gdb ./ReadWords
+==51376== and then give GDB the following command
+==51376==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=51376
+==51376== --pid is optional if only one valgrind process is running
+==51376== 
+--51376-- REDIR: 0x4022e10 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--51376-- REDIR: 0x4022be0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--51376--    object doesn't have a symbol table
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--51376--    object doesn't have a symbol table
+==51376== WARNING: new redirection conflicts with existing -- ignoring it
+--51376--     old: 0x04022e10 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--51376--     new: 0x04022e10 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--51376-- REDIR: 0x401f5f0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--51376-- REDIR: 0x4023370 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/libpthread-2.31.so
+--51376--   Considering /usr/lib/debug/.build-id/e5/4761f7b554d0fcc1562959665d93dffbebdaf0.debug ..
+--51376--   .. build-id is valid
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28
+--51376--    object doesn't have a symbol table
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+--51376--    object doesn't have a symbol table
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--51376--   Considering /usr/lib/x86_64-linux-gnu/libc-2.31.so ..
+--51376--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--51376--   Considering /lib/x86_64-linux-gnu/libc-2.31.so ..
+--51376--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--51376--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.31.so ..
+--51376--   .. CRC is valid
+--51376-- Reading syms from /usr/lib/x86_64-linux-gnu/libm-2.31.so
+--51376--   Considering /usr/lib/x86_64-linux-gnu/libm-2.31.so ..
+--51376--   .. CRC mismatch (computed fcb42c76 wanted f6c95789)
+--51376--   Considering /lib/x86_64-linux-gnu/libm-2.31.so ..
+--51376--   .. CRC mismatch (computed fcb42c76 wanted f6c95789)
+--51376--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.31.so ..
+--51376--   .. CRC is valid
+--51376-- REDIR: 0x4b1e600 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d900 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e930 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d220 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d960 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1fdd0 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3ae60 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3a9a0 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e760 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e590 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d890 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d2d0 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e6c0 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3a960 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d7f0 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d3b0 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e980 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d350 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1ead0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3c0d0 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3a9e0 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d9a0 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d280 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1d7b0 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b26d20 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e9d0 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e550 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b3aab0 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1dc60 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e8d0 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1e870 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1fe10 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4b1ea20 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--51376-- REDIR: 0x4c06490 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
+--51376-- REDIR: 0x4b18260 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--51376-- REDIR: 0x4c06660 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
+--51376-- REDIR: 0x4c02c50 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48421e0 (bcmp)
+--51376-- REDIR: 0x4c01b60 (libc.so.6:__strcmp_avx2) redirected to 0x483fed0 (strcmp)
+--51376-- REDIR: 0x4928b20 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x483bdf0 (operator new(unsigned long))
+--51376-- REDIR: 0x4b19c90 (libc.so.6:calloc) redirected to 0x483dce0 (calloc)
+--51376-- REDIR: 0x4928b80 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x483c510 (operator new[](unsigned long))
+--51376-- REDIR: 0x4c09650 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
+--51376-- REDIR: 0x4c09670 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48429f0 (memmove)
+--51376-- REDIR: 0x4926da0 (libstdc++.so.6:operator delete[](void*)) redirected to 0x483d6e0 (operator delete[](void*))
+==51376== Thread 2:
+==51376== Mismatched free() / delete / delete []
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 alloc'd
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10A8F8: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+--51376-- REDIR: 0x4926d70 (libstdc++.so.6:operator delete(void*)) redirected to 0x483cf50 (operator delete(void*))
+--51376-- REDIR: 0x4b18850 (libc.so.6:free) redirected to 0x483c9d0 (free)
+==51376== Thread 1:
+==51376== Invalid read of size 8
+==51376==    at 0x10AFF1: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DAB6: bool __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>::operator()<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D12F: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10B026: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DAB6: bool __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>::operator()<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D12F: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10AFF1: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10E34D: bool __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>::operator()<Word*, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(Word*&, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DBE2: void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D1B6: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd39e0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10B026: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10E34D: bool __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>::operator()<Word*, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(Word*&, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DBE2: void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D1B6: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 4
+==51376==    at 0x10B25C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a8 is 8 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10B263: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+--51376-- REDIR: 0x4c062a0 (libc.so.6:__strchrnul_avx2) redirected to 0x4843540 (strchrnul)
+==51376== Invalid read of size 8
+==51376==    at 0x10AEE0: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 4
+==51376==    at 0x10AF0C: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a8 is 8 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== Invalid read of size 8
+==51376==    at 0x10AF24: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== HEAP SUMMARY:
+==51376==     in use at exit: 47 bytes in 12 blocks
+==51376==   total heap usage: 27 allocs, 15 frees, 75,303 bytes allocated
+==51376== 
+==51376== Searching for pointers to 12 not-freed blocks
+==51376== Checked 136,264 bytes
+==51376== 
+==51376== 5 bytes in 1 blocks are still reachable in loss record 1 of 4
+==51376==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A6F9: my_strdup(char*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10ACD2: readInputWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1C9: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376== 
+==51376== 6 bytes in 2 blocks are definitely lost in loss record 2 of 4
+==51376==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x4B1D50E: strdup (strdup.c:42)
+==51376==    by 0x10B621: Word::Word(char*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10AEA2: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376== 
+==51376== 18 bytes in 4 blocks are definitely lost in loss record 3 of 4
+==51376==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A6F9: my_strdup(char*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10ACD2: readInputWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1C9: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376== 
+==51376== 18 bytes in 5 blocks are definitely lost in loss record 4 of 4
+==51376==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x4B1D50E: strdup (strdup.c:42)
+==51376==    by 0x10B621: Word::Word(char*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10A7FB: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== LEAK SUMMARY:
+==51376==    definitely lost: 42 bytes in 11 blocks
+==51376==    indirectly lost: 0 bytes in 0 blocks
+==51376==      possibly lost: 0 bytes in 0 blocks
+==51376==    still reachable: 5 bytes in 1 blocks
+==51376==         suppressed: 0 bytes in 0 blocks
+==51376== 
+==51376== ERROR SUMMARY: 43 errors from 14 contexts (suppressed: 0 from 0)
+==51376== 
+==51376== 1 errors in context 1 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10AF24: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 1 errors in context 2 of 14:
+==51376== Invalid read of size 4
+==51376==    at 0x10AF0C: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a8 is 8 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 3 errors in context 3 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10B026: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DAB6: bool __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>::operator()<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D12F: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 3 errors in context 4 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10AFF1: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DAB6: bool __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>::operator()<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D12F: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 4 errors in context 5 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10B263: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 4 errors in context 6 of 14:
+==51376== Invalid read of size 4
+==51376==    at 0x10B25C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a8 is 8 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 4 errors in context 7 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10B026: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10E34D: bool __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>::operator()<Word*, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(Word*&, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DBE2: void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D1B6: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 4 errors in context 8 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10AFF1: compareWords(Word*, Word*) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10E34D: bool __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>::operator()<Word*, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > > >(Word*&, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10DBE2: void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Val_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10D1B6: void std::__insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10CB26: void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10C39C: void std::__sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)> >(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__ops::_Iter_comp_iter<bool (*)(Word*, Word*)>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10BB6E: void std::sort<__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)>(__gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, __gnu_cxx::__normal_iterator<Word**, std::vector<Word*, std::allocator<Word*> > >, bool (*)(Word*, Word*)) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B1F6: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd39e0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 5 errors in context 9 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10AEE0: lookupWords() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10B28C: main (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==  Address 0x4dd38a0 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 5 errors in context 10 of 14:
+==51376== Thread 2:
+==51376== Mismatched free() / delete / delete []
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 alloc'd
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== 
+==51376== 6 errors in context 11 of 14:
+==51376== Invalid read of size 8
+==51376==    at 0x10A8F8: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Address 0x4dd3760 is 0 bytes inside a block of size 16 free'd
+==51376==    at 0x483D74F: operator delete[](void*) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A990: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376==  Block was alloc'd at
+==51376==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==51376==    by 0x10A7E6: workerThread() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F0DF: void std::__invoke_impl<void, void (*)()>(std::__invoke_other, void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F077: std::__invoke_result<void (*)()>::type std::__invoke<void (*)()>(void (*&&)()) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10F009: void std::thread::_Invoker<std::tuple<void (*)()> >::_M_invoke<0ul>(std::_Index_tuple<0ul>) (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EFC6: std::thread::_Invoker<std::tuple<void (*)()> >::operator()() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x10EF97: std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)()> > >::_M_run() (in /home/bingbing/Documents/WolvenPlanet/ReadWordsProject/ReadWords)
+==51376==    by 0x4954DE3: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==51376==    by 0x4864608: start_thread (pthread_create.c:477)
+==51376==    by 0x4B9D292: clone (clone.S:95)
+==51376== 
+==51376== ERROR SUMMARY: 43 errors from 14 contexts (suppressed: 0 from 0)

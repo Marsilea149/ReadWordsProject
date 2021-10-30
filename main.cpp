@@ -23,6 +23,11 @@ struct Word
            count(0)
   {
   }
+
+  // ~Word()
+  // {
+  //   free(data);
+  // }
 };
 
 //TODO try to put as param remove from global
@@ -40,7 +45,6 @@ int s_totalFound;
 // variable used protect shared data from being simultaneously accessed by multiple threads
 std::mutex wordLock;
 
-
 bool eofEncountered;
 
 /**This method allows to allocate properly destination memory first,
@@ -51,8 +55,8 @@ bool eofEncountered;
 char *my_strdup(char *input)
 {
   //TODO try to use std::unique_ptr here
-// std::unique_ptr<unsigned char[]> output(new unsigned char[len]);
-//     std::copy_n(input.c_str(), input.length() + 1, output.get());
+  // std::unique_ptr<unsigned char[]> output(new unsigned char[len]);
+  //     std::copy_n(input.c_str(), input.length() + 1, output.get());
 
   // We need strlen(src) + 1, since we have to account for '\0'
   int len = strlen(input) + 1;
@@ -79,7 +83,7 @@ void workerThread()
   while (!endEncountered)
   {
     //TODO: Manage EOF without "end" having been entered
-    if(eofEncountered)
+    if (eofEncountered)
       break;
 
     //check if there is a new word
@@ -116,6 +120,7 @@ void workerThread()
           s_wordsArray.push_back(w);
       }
       //printf("workerThread Output: %s\n", s_word.data);
+      delete[] w;
     }
   }
   std::cout << "=====================================workerThread end========================" << std::endl;
@@ -129,7 +134,7 @@ void readInputWords()
 {
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords begin~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   bool endEncountered = false;
-eofEncountered = false;
+  eofEncountered = false;
   //TODO is it better to use object instead of pointer here?
   std::thread worker = std::thread(workerThread);
 
@@ -147,14 +152,14 @@ eofEncountered = false;
     int inputSuccess = std::scanf("%s", linebuf.get());
 
     // if end of file is detected return / throw an exception TODO update comment
-    if (inputSuccess == EOF) 
+    if (inputSuccess == EOF)
     {
       //CHANGELOG: eofEncountered is introduced to informe worker thread to stop working as user input error happens
       eofEncountered = true;
       //CHANGELOG: for thread safety, we have to make sure that worker thread has completely finished working, so that the thread object becomes non-joinable and can be destroyed safely.
       worker.join();
       //TODO is it better to use return + a std::cout or use throw?
-      throw(std::invalid_argument( "EOF encountered without having 'end' word in user input. Quitting the program."));
+      throw(std::invalid_argument("EOF encountered without having 'end' word in user input. Quitting the program."));
       // return;
     }
 
@@ -185,7 +190,6 @@ eofEncountered = false;
   // Wait for the worker to terminate
   worker.join();
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~readInputWords end~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-
   //do I need a destructor for workerThread ???
 }
 
@@ -285,7 +289,7 @@ int main()
     std::printf("error %s\n", e.what());
   }
   // Free the memory address returned using malloc()
-  free(s_word.data);
+  // free(s_word.data);
 
   //TODO: not sure if necessary
   s_wordsArray.clear();
