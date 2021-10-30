@@ -9,20 +9,33 @@
 #define WORD_MAX_SIZE 32
 
 //CHANGELOG: convert Word into a class so that the data and count can be encapsulated. Avoid them from accessing by others uninetentionally
+
+/**This class represents a word, with its 'count', which is defined as the number of times the word has been entered
+ * The maximum size of word is defined by WORD_MAX_SIZE. When the user input exceeds the WORD_MAX_SIZE, an error is sent. 
+ */
 class Word
 {
 
 public:
-  Word(char *data_) : // ::strdup() is C not C++. Note that we need to manually free data afterwards.
-                      data(::strdup(data_)),
-                      //We need to add 1 for "/0" to indicate the end of the char array
-                      size((unsigned)strlen(data_) + 1),
-                      count(0)
+  /**Constructor with a character array
+   * @param[in] data_: pointer pointing to the beginning of the input character array
+   */
+  Word(char *data_) : count(0)
   {
+    size = strlen(data_) + 1;
+    char *output = (char *)malloc((size + 1) * sizeof(char));
+    if (output == NULL)
+      data = nullptr;
+    else
+      data = (char *)memcpy(output, data_, size);
   }
 
+  /**Constructor without input
+   * By defaul, data is initialized to empty
+   * and count is initialized to 0
+   */
   Word() : data((char *)""),
-            //1 for "/0"
+           //1 for "/0"
            size(1),
            count(0)
   {
@@ -30,7 +43,8 @@ public:
 
   //CHANGELOG: add destructor so that the object can be properly destroyed: it allows to release memory before the class instance is destroyed. This must be done to avoid memory leak.
 
-  //TODO: why I don't need to delete data???
+  /**Destructor
+   */
   ~Word()
   {
     /*delete[] data;*/
@@ -39,20 +53,46 @@ public:
       free(data);
   }
 
+  /**Increment the number of times this word appears by one
+   */
   void incrementCount()
   {
     ++count;
   }
 
+  /**Return count as an unsigned int
+   */ 
   unsigned int getCount()
   {
     return count;
   }
+  /**Method used to free the memory of 's_word.data' first, then copy the data,
+   * finally add the end terminator so that there is no memory leak
+   * @param[in] inputPtr: pointer pointing to the first character of the input array
+   * @param[in] inputSize: the size of the input array
+   */
+  void setData(char const *inputPtr, unsigned int const inputSize)
+  {
+    free(data);
+    data = (char *)malloc(inputSize + 1);
+    strcpy(data, inputPtr);
+    data[inputSize] = '\0';
+  }
 
-  char *data;
-
+  /**Get the word data
+   * @return: a char pointer pointing to the beginning of word data
+   * (FutureWork: Here I will chose to use smart pointer so that the memory get managed correctly when data is not used anymore)
+   */
+  char *getData() const
+  {
+    return data;
+  }
 
 private:
+  // pointer pointing to the start of the word array
+  char *data;
+
+  //number of times the word entered by user
   unsigned int count;
 
   //CHANGELOG: add size so that we can handle data easily
@@ -75,27 +115,8 @@ int s_totalFound;
 // variable used protect shared data from being simultaneously accessed by multiple threads
 std::mutex wordLock;
 
+// true when end of file is encountered, false else
 bool eofEncountered;
-
-/**This method allows to allocate properly destination memory first,
- * then make a copy of string.
- * @param[in] input: pointer poiting to the first char of the input string, to be copied
- * @return pointer poiting to the first char of the copy of the input string
- */
-char *my_strdup(char *input)
-{
-  //TODO try to use std::unique_ptr here
-  // std::unique_ptr<unsigned char[]> output(new unsigned char[len]);
-  //     std::copy_n(input.c_str(), input.length() + 1, output.get());
-
-  // We need strlen(src) + 1, since we have to account for '\0'
-  int len = strlen(input) + 1;
-  char *output = (char *)malloc((len + 1) * sizeof(char));
-  if (output == NULL)
-    return NULL;
-  output = (char *)memcpy(output, input, len);
-  return output;
-}
 
 // Worker thread: consume words passed from the main thread and insert them
 // in the 'word list' (s_wordsArray), while removing duplicates. Terminate when
@@ -117,19 +138,21 @@ void workerThread()
       break;
 
     //check if there is a new word
-    if (s_word.data[0])
+    if (s_word.getData()[0])
     {
       std::cout << "===2===" << std::endl;
       // Create a new Word object with the input data
       // ??? do I need a delete w later?
-      Word w(s_word.data);
+      Word w(s_word.getData());
       w.incrementCount();
       //printf("workerThread local w: %s, %i \n", w->data, w->count);
 
       // Check if the word "end" is encountered
-      endEncountered = std::strcmp(s_word.data, "end") == 0;
+      endEncountered = std::strcmp(s_word.getData(), "end") == 0;
       // Inform the producer that we consumed the word
-      s_word.data[0] = 0;
+      //s_word.getData()[0] = 0;
+      char *empty = "";
+      s_word.setData(empty, 1);
 
       if (!endEncountered)
       {
@@ -138,7 +161,7 @@ void workerThread()
         for (auto p : s_wordsArray)
         {
           std::cout << "===4===" << std::endl;
-          if (!std::strcmp(p.data, w.data))
+          if (!std::strcmp(p.getData(), w.getData()))
           {
             p.incrementCount();
             found = true;
@@ -212,7 +235,7 @@ void readInputWords()
 
     //copy linebuf data into s_word.data
     //TODO check if my_strdup returns NULL manage
-    s_word.data = my_strdup(linebuf.get());
+    s_word.setData(linebuf.get(), inputSize);
   }
   std::cout << "~~~5~~~" << std::endl;
   // Wait for the worker to terminate
@@ -250,10 +273,10 @@ void lookupWords()
     // Search for the word
     for (unsigned int i = 0; i < s_wordsArray.size(); ++i)
     {
-      if (std::strcmp(s_wordsArray[i].data, w.data) == 0)
+      if (std::strcmp(s_wordsArray[i].getData(), w.getData()) == 0)
       {
         std::printf("SUCCESS: '%s' was present %d times in the initial word list\n",
-                    s_wordsArray[i].data, s_wordsArray[i].getCount());
+                    s_wordsArray[i].getData(), s_wordsArray[i].getCount());
         found = true;
         ++s_totalFound;
         break;
@@ -261,7 +284,7 @@ void lookupWords()
     }
     if (!found)
     {
-      std::printf("'%s' was NOT found in the initial word list\n", w.data);
+      std::printf("'%s' was NOT found in the initial word list\n", w.getData());
     }
   }
 }
@@ -273,8 +296,8 @@ void lookupWords()
  */
 bool compareWords(Word const &first, Word const &second)
 {
-  std::string firstStr = first.data;
-  std::string secondStr = second.data;
+  std::string firstStr = first.getData();
+  std::string secondStr = second.getData();
   //TODO try strcmp, put all upper case => indicate that in readme
   //minimum size between the two strings
   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
@@ -303,7 +326,7 @@ int main()
     // Print the word list
     std::printf("\n=== Word list:\n");
     for (auto p : s_wordsArray)
-      std::printf("%s %d\n", p.data, p.getCount());
+      std::printf("%s %d\n", p.getData(), p.getCount());
 
     lookupWords();
 
