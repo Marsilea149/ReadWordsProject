@@ -50,12 +50,14 @@ public:
   }
 
   char *data;
-  //CHANGELOG: add size so that we can handle data easily
-  // size of data
-  unsigned int size;
+
 
 private:
   unsigned int count;
+
+  //CHANGELOG: add size so that we can handle data easily
+  // size of data
+  unsigned int size;
 };
 
 //TODO try to put as param remove from global
@@ -147,8 +149,6 @@ void workerThread()
         if (!found)
           s_wordsArray.push_back(w);
       }
-      //printf("workerThread Output: %s\n", s_word.data);
-      // delete[] w;
     }
   }
   std::cout << "=====================================workerThread end========================" << std::endl;
@@ -267,27 +267,11 @@ void lookupWords()
 }
 
 /**This method compares two Words alphabetically
- * @param[in] first: pointer pointing to the beginning of first Word 
- * @param[in] second: pointer pointing to the beginning of second Word 
+ * @param[in] first: the first word to compare
+ * @param[in] second: the second word to compare 
  * @return true if [first, second] is in alphabetical order, false else
  */
-// bool compareWords(Word *first, Word *second)
-// {
-//   std::string firstStr = first->data;
-//   std::string secondStr = second->data;
-//   //TODO try strcmp, put all upper case => indicate that in readme
-//   //minimum size between the two strings
-//   unsigned int minStringSize = std::min(firstStr.size(), secondStr.size());
-//   for (unsigned int i = 0; i < minStringSize; ++i)
-//   {
-//     if (firstStr[i] < secondStr[i])
-//       return true;
-//     else if (firstStr[i] > secondStr[i])
-//       return false;
-//   }
-//   return false;
-// }
-bool compareWords(Word first, Word second)
+bool compareWords(Word const &first, Word const &second)
 {
   std::string firstStr = first.data;
   std::string secondStr = second.data;
