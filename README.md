@@ -79,7 +79,7 @@ Please follow the steps below to use the program after installation:
 [(Back to top)](#table-of-contents)
 
 To visualize the memory leak tracking: 
-at step 1 of **Usage**, instead of typing ```./ReadWords```, please type 
+at step 1 of **Usage**, instead of typing ```./ReadWords```, please type in your terminal:
 ```
 valgrind 
 --leak-check=full          
